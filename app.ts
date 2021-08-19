@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 import faker from "faker";
 
 const prisma = new PrismaClient();
@@ -18,29 +18,39 @@ app.get("/", (req: Request, res: Response) => {
 
 const seed = async () => {
   const count = new Array(100).fill(null);
-  console.log(count.length);
   count.map(async (_, i) => {
+    /* seed user data */
     // await prisma.user.create({
     //   data: {
     //     email: faker.internet.email(),
     //     name: faker.name.findName(),
     //   },
     // });
+    /* seed post data */
     // await prisma.post.create({
     //   data: {
     //     title: faker.random.words(15),
     //     content: faker.random.words(150),
-    //     authorId: faker.datatype.number(200),
+    //     authorId: faker.datatype.number(100),
     //     published: faker.datatype.boolean(),
     //   },
     // });
+    /* seed profile data */
+    // await prisma.profile.create({
+    //   data: {
+    //     bio: faker.lorem.words(50 + i * 1),
+    //     userId: i ?? 1,
+    //   },
+    // });
   });
-
-  const runQuery = async (): Promise<void> => {
-    // seed();
-  };
-
-  runQuery();
-
-  app.listen(PORT, () => console.log("🔥 server running at ", PORT, "🔥"));
 };
+
+const runQuery = async (): Promise<void> => {
+  // seed();
+};
+
+runQuery();
+
+seed();
+/* start server on port */
+app.listen(PORT, () => console.log("🔥 server running at ", PORT, "🔥"));
