@@ -1,6 +1,6 @@
 {
-  "watch": ["src/**/*.ts", "./app.ts"],
+  "watch": ["src/**/*.ts", "./app.ts", "query/**/*.ts"],
   "ext": "ts,json",
   "ignore": ["src/**/*.spec.ts"],
-  "exec": "npx ts-node ./app.ts"
+  "exec": "clear ; npx ts-node ./app.ts"
 }
