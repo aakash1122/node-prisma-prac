@@ -36,4 +36,10 @@ model User {
   name    String?
   posts   Post[]
   profile Profile?
+  role    ROLE     @default(USER)
+}
+
+enum ROLE {
+  ADMIN
+  USER
 }

@@ -1,4 +1,4 @@
-import { findByIdentifier, findByOperator } from "./query/readQuery";
+import readQuery from "./query/readQuery";
 import express, { Request, Response } from "express";
 import { PrismaClient, Prisma } from "@prisma/client";
 import faker from "faker";
@@ -20,11 +20,9 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 const runQuery = async (): Promise<void> => {
-  // createMany();
-  // findByIdentifier();
-  // findByOperator();
   // updateQuery();
-  deleteQuery();
+  // deleteQuery();
+  readQuery();
 };
 runQuery();
 
