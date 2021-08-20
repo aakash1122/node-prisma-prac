@@ -4,6 +4,8 @@ import { PrismaClient, Prisma } from "@prisma/client";
 import faker from "faker";
 import { createMany } from "./query/createQuery";
 import prisma from "./client";
+import updateQuery from "./query/updateQuery";
+import deleteQuery from "./query/deleteQuery";
 
 const app = express();
 const PORT = 5000 || process.env.PORT;
@@ -20,7 +22,9 @@ app.get("/", (req: Request, res: Response) => {
 const runQuery = async (): Promise<void> => {
   // createMany();
   // findByIdentifier();
-  findByOperator();
+  // findByOperator();
+  // updateQuery();
+  deleteQuery();
 };
 runQuery();
 

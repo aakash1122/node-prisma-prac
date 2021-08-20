@@ -8,6 +8,7 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["referentialActions"]
 }
 
 model Post {
@@ -17,14 +18,15 @@ model Post {
   title     String   @db.VarChar(255)
   content   String   @db.Text 
   published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
+  love      Int      @default(0)
+  author    User     @relation(fields: [authorId], references: [id],onDelete:Cascade)
   authorId  Int
 }
 
 model Profile {
   id     Int     @default(autoincrement()) @id
   bio    String?
-  user   User    @relation(fields: [userId], references: [id])
+  user   User    @relation(fields: [userId], references: [id],onDelete:Cascade)
   userId Int     @unique
 }
 
