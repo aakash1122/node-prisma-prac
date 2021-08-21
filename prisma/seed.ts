@@ -3,65 +3,6 @@ import faker from "faker";
 
 const prisma = new PrismaClient();
 
-const count = new Array(5).fill("");
-
-let data: Prisma.UserCreateManyInput[];
-
-// data = [{
-//   email:faker.internet.email(),
-//   name: faker.name.findName(),
-//   profile: {
-//     create: {
-//       bio: faker.lorem.words(50),
-//     },
-//   },
-//   posts: {
-//     create: {
-//       title: faker.random.words(15),
-//       content: faker.random.words(100),
-//       love: faker.datatype.number(200),
-//     },
-//   },
-// }]
-
-data = count.map((_, i) => {
-  return {
-    email: faker.internet.email(),
-    name: faker.name.findName(),
-    profile: {
-      create: {
-        bio: faker.lorem.words(50),
-      },
-    },
-    posts: {
-      create: {
-        title: faker.random.words(15),
-        content: faker.random.words(100),
-        love: faker.datatype.number(200),
-      },
-    },
-  };
-});
-
-// let data: Prisma.UserCreateArgs[] = {
-//   data: {
-//     email: faker.internet.email(),
-//     name: faker.name.findName(),
-//     profile: {
-//       create: {
-//         bio: faker.lorem.words(50),
-//       },
-//     },
-//     posts: {
-//       create: {
-//         title: faker.random.words(15),
-//         content: faker.random.words(100),
-//         love: faker.datatype.number(200),
-//       },
-//     },
-//   },
-// }
-
 async function seed() {
   for (let index = 1; index < 100; index++) {
     await prisma.user.create({
