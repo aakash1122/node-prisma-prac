@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx ts-node app.ts --watch"
+    "dev": "npx ts-node app.ts --watch",
+    "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\""
   },
   "keywords": [],
   "author": "",

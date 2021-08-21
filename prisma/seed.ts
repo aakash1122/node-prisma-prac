@@ -3,29 +3,98 @@ import faker from "faker";
 
 const prisma = new PrismaClient();
 
-const count = new Array(100).fill(null);
-count.map(async (_, i) => {
-  /* seed user data */
-  await prisma.user.create({
-    data: {
-      email: faker.internet.email(),
-      name: faker.name.findName(),
+const count = new Array(5).fill("");
+
+let data: Prisma.UserCreateManyInput[];
+
+// data = [{
+//   email:faker.internet.email(),
+//   name: faker.name.findName(),
+//   profile: {
+//     create: {
+//       bio: faker.lorem.words(50),
+//     },
+//   },
+//   posts: {
+//     create: {
+//       title: faker.random.words(15),
+//       content: faker.random.words(100),
+//       love: faker.datatype.number(200),
+//     },
+//   },
+// }]
+
+data = count.map((_, i) => {
+  return {
+    email: faker.internet.email(),
+    name: faker.name.findName(),
+    profile: {
+      create: {
+        bio: faker.lorem.words(50),
+      },
     },
-  });
-  /* seed post data */
-  await prisma.post.create({
-    data: {
-      title: faker.random.words(15),
-      content: faker.random.words(150),
-      authorId: faker.datatype.number(100),
-      published: faker.datatype.boolean(),
+    posts: {
+      create: {
+        title: faker.random.words(15),
+        content: faker.random.words(100),
+        love: faker.datatype.number(200),
+      },
     },
-  });
-  /* seed profile data */
-  await prisma.profile.create({
-    data: {
-      bio: faker.lorem.words(50 + i * 1),
-      userId: i ?? 1,
-    },
-  });
+  };
 });
+
+// let data: Prisma.UserCreateArgs[] = {
+//   data: {
+//     email: faker.internet.email(),
+//     name: faker.name.findName(),
+//     profile: {
+//       create: {
+//         bio: faker.lorem.words(50),
+//       },
+//     },
+//     posts: {
+//       create: {
+//         title: faker.random.words(15),
+//         content: faker.random.words(100),
+//         love: faker.datatype.number(200),
+//       },
+//     },
+//   },
+// }
+
+async function seed() {
+  for (let index = 1; index < 100; index++) {
+    await prisma.user.create({
+      data: {
+        email: faker.internet.email(),
+        name: faker.name.findName(),
+        profile: {
+          create: {
+            bio: faker.lorem.words(50),
+          },
+        },
+        posts: {
+          createMany: {
+            data: Array.from({
+              length: Math.ceil(index * Math.random()),
+            }).map(() => ({
+              title: faker.random.words(15),
+              content: faker.random.words(100),
+              love: faker.datatype.number(200),
+              published: faker.datatype.boolean(),
+            })),
+          },
+        },
+      },
+    });
+  }
+}
+
+seed()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
