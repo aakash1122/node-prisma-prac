@@ -282,27 +282,37 @@ const filterAndSort = async () => {
   //   })
   //   .posts();
 
-  let raw = await prisma.$queryRaw(
-    `select "User"."id", "User"."name","Post"."total_posts","Post"."love_count" 
-    from "User"
-    inner join 
-    (
-      select "Post"."authorId", count("Post"."title") as "total_posts" ,
-      sum("Post"."love") as "love_count"
-      from "Post"
-      group by "Post"."authorId"
-    
-      ) as "Post"
+  // let raw = await prisma.$queryRaw(
+  //   `select "User"."id", "User"."name","Post"."total_posts","Post"."love_count"
+  //   from "User"
+  //   inner join
+  //   (
+  //     select "Post"."authorId", count("Post"."title") as "total_posts" ,
+  //     sum("Post"."love") as "love_count"
+  //     from "Post"
+  //     group by "Post"."authorId"
 
-    on "User".id = "Post"."authorId"
-    order by "total_posts" desc
-    ;`
-  );
+  //     ) as "Post"
 
-  console.log(raw);
+  //   on "User".id = "Post"."authorId"
+  //   order by "total_posts" desc
+  //   ;`
+  // );
+
+  // console.log(raw);
+
+  let res = await prisma.user.findMany({
+    select: {
+      name: true,
+      email: true,
+      posts: {
+        select: {
+          title: true,
+          love: true,
+        },
+        take: 2,
+      },
+    },
+    take: 10,
+  });
 };
-
-// select "User"."id","User"."name" , count(*) from "User" inner join "Post"
-//       on "User"."id" = "Post"."authorId"
-//       group by "User"."id"
-//       order by count desc
